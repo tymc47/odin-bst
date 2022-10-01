@@ -101,9 +101,20 @@ class Tree {
         }
     }
 
+    levelOrder(callback, queue = [this.root], results = []){
+        if (queue.length === 0) return callback ? true : results; 
+
+        const targetNode = queue.shift()
+        if (targetNode.left) queue.push(targetNode.left);
+        if (targetNode.right) queue.push(targetNode.right)
+
+        callback ? callback(targetNode) : results.push(targetNode.data)
+        return this.levelOrder(callback, queue, results);
+    }
+
     //given print function
     //source: https://www.theodinproject.com/lessons/javascript-binary-search-trees
-    prettyPrint(node, prefix = '', isLeft = true) {
+    prettyPrint(node = this.root, prefix = '', isLeft = true) {
         if (node === null) {
             return;
         }
@@ -119,7 +130,6 @@ class Tree {
 
 // const tree2 = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 // tree2.prettyPrint(tree2.root);
-const tree3 = new Tree([2]);
+const tree3 = new Tree([1,2,3,4,5,6,7,8,9,10]);
 tree3.prettyPrint(tree3.root);
-tree3.delete(2);
-tree3.prettyPrint(tree3.root);
+console.log(tree3.levelOrder((node)=>{console.log(`Value is ${node.data}`)}));
