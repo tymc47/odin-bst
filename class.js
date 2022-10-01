@@ -112,6 +112,49 @@ class Tree {
         return this.levelOrder(callback, queue, results);
     }
 
+    inOrder(callback, targetNode = this.root, results = []){
+        if (targetNode.left) {
+         results = this.inOrder(callback, targetNode.left, results);   
+        }
+
+        callback? callback(targetNode) : results.push(targetNode.data)
+
+        if (targetNode.right){
+            results = this.inOrder(callback, targetNode.right ,results);
+        }
+
+        return results;
+    }
+
+    preOrder(callback, targetNode = this.root, results = []){
+        callback? callback(targetNode) : results.push(targetNode.data)
+        
+        if (targetNode.left) {
+         results = this.preOrder(callback, targetNode.left, results);   
+        }
+        
+        if (targetNode.right){
+            results = this.preOrder(callback, targetNode.right ,results);
+        }
+
+        return results;
+    }
+
+    postOrder(callback, targetNode = this.root, results = []){
+        
+        if (targetNode.left) {
+            results = this.postOrder(callback, targetNode.left, results);   
+        }
+        
+        if (targetNode.right){
+            results = this.postOrder(callback, targetNode.right ,results);
+        }
+        
+        callback? callback(targetNode) : results.push(targetNode.data)
+        
+        return results;
+    }
+
     //given print function
     //source: https://www.theodinproject.com/lessons/javascript-binary-search-trees
     prettyPrint(node = this.root, prefix = '', isLeft = true) {
@@ -132,4 +175,8 @@ class Tree {
 // tree2.prettyPrint(tree2.root);
 const tree3 = new Tree([1,2,3,4,5,6,7,8,9,10]);
 tree3.prettyPrint(tree3.root);
-console.log(tree3.levelOrder((node)=>{console.log(`Value is ${node.data}`)}));
+console.log(tree3.preOrder());
+console.log(tree3.postOrder());
+
+
+
